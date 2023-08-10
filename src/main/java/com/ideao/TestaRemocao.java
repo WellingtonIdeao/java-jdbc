@@ -18,6 +18,7 @@ public class TestaRemocao {
             Integer linhasModificadas = stmt.getUpdateCount();
             System.out.println("Quantidade de linhas foram modificadas "+ linhasModificadas);
             
+            stmt.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();

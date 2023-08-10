@@ -28,7 +28,9 @@ public class TestaListagem {
                 
                 String descricao = rst.getString("descricao");
                 System.out.println(descricao);
-            }   
+            }
+            rst.close();
+            stmt.close();   
             connection.close(); 
         } catch (SQLException e) {  
             e.printStackTrace();

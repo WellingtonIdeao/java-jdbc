@@ -30,7 +30,8 @@ public class TestaInsercaoComParametro {
                 System.out.println("O id criado foi: "+id);
                 
             }
-
+            rst.close();
+            stmt.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
