@@ -1,8 +1,8 @@
 package com.ideao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class TestaRemocao {
     public static void main(String[] args) {  
@@ -11,8 +11,9 @@ public class TestaRemocao {
         try {  
             Connection connection = factory.getConnection();
             
-            Statement stmt = connection.createStatement();
-            stmt.execute("DELETE FROM produto WHERE ID > 1");
+            PreparedStatement stmt = connection.prepareStatement("DELETE FROM produto WHERE ID > ?");
+            stmt.setInt(1, 1);
+            stmt.execute();
             
             Integer linhasModificadas = stmt.getUpdateCount();
             System.out.println("Quantidade de linhas foram modificadas "+ linhasModificadas);

@@ -1,9 +1,9 @@
 package com.ideao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class TestaListagem {
     public static void main(String[] args) {
@@ -12,8 +12,8 @@ public class TestaListagem {
           try {
             Connection connection = factory.getConnection();
             
-            Statement stmt = connection.createStatement();
-            boolean isQuery = stmt.execute("SELECT id, nome, descricao FROM produto");
+            PreparedStatement stmt = connection.prepareStatement("SELECT id, nome, descricao FROM produto");
+            boolean isQuery = stmt.execute();
             System.out.println(isQuery);
 
             ResultSet rst = stmt.getResultSet();
