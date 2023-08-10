@@ -7,35 +7,48 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class TestaInsercaoComParametro {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         ConnectionFactory factory = new ConnectionFactory();
-        String nome = "Mouse'";
-        String descricao = "Mouse sem fio);delete from produto"; // prova que não injeta instruções SQL( SQL Injection)
+        // String nome = "Mouse'";
+        // String descricao = "Mouse sem fio);delete from produto"; // prova que não injeta instruções SQL( SQL Injection)
 
+        Connection connection = factory.getConnection();
+        connection.setAutoCommit(false);
+     
         try {
-            Connection connection = factory.getConnection();
-            
+
             PreparedStatement stmt = connection.prepareStatement(
                 "INSERT INTO produto (NOME, descricao) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+        
+            addVariable("SmartTV", "45 polegadas", stmt);
+            addVariable("Radio", "Radio a bateria", stmt);
             
-            stmt.setString(1, nome);
-            stmt.setString(2, descricao);
-            
-            stmt.execute();
+            connection.commit();
 
-            ResultSet rst = stmt.getGeneratedKeys();
-
-            while(rst.next()){
-                Integer id = rst.getInt(1);
-                System.out.println("O id criado foi: "+id);
-                
-            }
-            rst.close();
             stmt.close();
-            connection.close();
-        } catch (SQLException e) {
+            connection.close();     
+        } catch (Exception e) {
             e.printStackTrace();
+            connection.rollback();
+            System.out.println("Rollback executado");
         }
     }
 
+    private static void addVariable(String nome, String descricao, PreparedStatement stmt) throws SQLException {
+        stmt.setString(1, nome);
+        stmt.setString(2, descricao);
+        // if(nome.equals("Radio")){
+        //     throw new RuntimeException("Não foi possivel adicionar o produto");
+        // }
+        
+        stmt.execute();
+
+        ResultSet rst = stmt.getGeneratedKeys();
+
+        while(rst.next()){
+            Integer id = rst.getInt(1);
+            System.out.println("O id criado foi: "+id);     
+        }
+        rst.close();
+    }
 }
