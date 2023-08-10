@@ -9,31 +9,28 @@ public class TestaListagem {
     public static void main(String[] args) {
         ConnectionFactory factory = new ConnectionFactory();
 
-          try {
-            Connection connection = factory.getConnection();
+        try(Connection connection = factory.getConnection();
+           PreparedStatement stmt = connection.prepareStatement("SELECT id, nome, descricao FROM produto")){
             
-            PreparedStatement stmt = connection.prepareStatement("SELECT id, nome, descricao FROM produto");
-            boolean isQuery = stmt.execute();
-            System.out.println(isQuery);
+                boolean isQuery = stmt.execute();
+                System.out.println(isQuery);
 
-            ResultSet rst = stmt.getResultSet();
-            
-            while (rst.next()) {
-                // Integer id = rst.getInt(1);
-                Integer id = rst.getInt("id");
-                System.out.println(id);
+                ResultSet rst = stmt.getResultSet();
                 
-                String nome = rst.getString("nome");
-                System.out.println(nome);
-                
-                String descricao = rst.getString("descricao");
-                System.out.println(descricao);
-            }
-            rst.close();
-            stmt.close();   
-            connection.close(); 
+                while (rst.next()) {
+                    // Integer id = rst.getInt(1);
+                    Integer id = rst.getInt("id");
+                    System.out.println(id);
+                    
+                    String nome = rst.getString("nome");
+                    System.out.println(nome);
+                    
+                    String descricao = rst.getString("descricao");
+                    System.out.println(descricao);
+                }
+                rst.close();
         } catch (SQLException e) {  
             e.printStackTrace();
         }
-    }
+    }       
 }

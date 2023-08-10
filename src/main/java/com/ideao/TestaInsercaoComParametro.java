@@ -12,26 +12,23 @@ public class TestaInsercaoComParametro {
         // String nome = "Mouse'";
         // String descricao = "Mouse sem fio);delete from produto"; // prova que não injeta instruções SQL( SQL Injection)
 
-        Connection connection = factory.getConnection();
-        connection.setAutoCommit(false);
+        try (Connection connection = factory.getConnection()) {
+            connection.setAutoCommit(false);
      
-        try {
+            try(PreparedStatement stmt = connection.prepareStatement(
+                    "INSERT INTO produto (NOME, descricao) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS)) {
 
-            PreparedStatement stmt = connection.prepareStatement(
-                "INSERT INTO produto (NOME, descricao) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
-        
-            addVariable("SmartTV", "45 polegadas", stmt);
-            addVariable("Radio", "Radio a bateria", stmt);
-            
-            connection.commit();
-
-            stmt.close();
-            connection.close();     
-        } catch (Exception e) {
-            e.printStackTrace();
-            connection.rollback();
-            System.out.println("Rollback executado");
-        }
+                
+                addVariable("SmartTV", "45 polegadas", stmt);
+                addVariable("Radio", "Radio a bateria", stmt);
+                
+                connection.commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                connection.rollback();
+                System.out.println("Rollback executado");
+            }
+        }    
     }
 
     private static void addVariable(String nome, String descricao, PreparedStatement stmt) throws SQLException {
@@ -43,12 +40,11 @@ public class TestaInsercaoComParametro {
         
         stmt.execute();
 
-        ResultSet rst = stmt.getGeneratedKeys();
-
-        while(rst.next()){
-            Integer id = rst.getInt(1);
-            System.out.println("O id criado foi: "+id);     
+        try (ResultSet rst = stmt.getGeneratedKeys()) {
+            while(rst.next()){
+                Integer id = rst.getInt(1);
+                System.out.println("O id criado foi: "+id);     
+            }   
         }
-        rst.close();
     }
 }
