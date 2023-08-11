@@ -11,7 +11,7 @@ public class ConnectionFactory {
     private DataSource dataSource;
 
     public ConnectionFactory() {
-        // pool de
+        // pool de conexões
         ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
         comboPooledDataSource.setJdbcUrl("jdbc:mysql://localhost/loja_virtual?useTimezone=true&serverTimezone");
         comboPooledDataSource.setUser("root");
