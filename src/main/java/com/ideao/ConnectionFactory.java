@@ -1,7 +1,6 @@
 package com.ideao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
@@ -17,6 +16,9 @@ public class ConnectionFactory {
         comboPooledDataSource.setJdbcUrl("jdbc:mysql://localhost/loja_virtual?useTimezone=true&serverTimezone");
         comboPooledDataSource.setUser("root");
         comboPooledDataSource.setPassword("dbsql123");
+
+        comboPooledDataSource.setMaxPoolSize(15);
+        
         this.dataSource = comboPooledDataSource;
     }
     
