@@ -19,18 +19,22 @@ public class TestaInsertComModelProduto {
             
             try(PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
 
-                pstmt.setString (1, comoda.getNome());
-                pstmt.setString(2, comoda.getDescricao());
-
-                pstmt.execute();
-
-                try(ResultSet rst = pstmt.getGeneratedKeys()){
-                    while(rst.next()){
-                        comoda.setId(rst.getInt(1));
-                    }
-                }
+                addProduto(comoda, pstmt);
             }
         }
         System.out.println(comoda);
+    }
+
+    private static void addProduto(Produto comoda, PreparedStatement pstmt) throws SQLException {
+        pstmt.setString (1, comoda.getNome());
+        pstmt.setString(2, comoda.getDescricao());
+
+        pstmt.execute();
+
+        try(ResultSet rst = pstmt.getGeneratedKeys()){
+            while(rst.next()){
+                comoda.setId(rst.getInt(1));
+            }
+        }
     }
 }
