@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.ideao.dao.ProdutoDAO;
+import com.ideao.factory.ConnectionFactory;
 import com.ideao.model.Produto;
 
 public class TestaListarProdutoDAO {

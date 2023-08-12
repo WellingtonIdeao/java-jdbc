@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import com.ideao.factory.ConnectionFactory;
+
 public class TestaRemocao {
     public static void main(String[] args) {  
         ConnectionFactory factory = new ConnectionFactory();

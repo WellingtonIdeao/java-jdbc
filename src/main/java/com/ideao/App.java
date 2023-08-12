@@ -3,6 +3,8 @@ package com.ideao;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.ideao.factory.ConnectionFactory;
+
 /**
  * Hello world!
  *

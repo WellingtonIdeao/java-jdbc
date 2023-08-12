@@ -2,6 +2,8 @@ package com.ideao;
 
 import java.sql.SQLException;
 
+import com.ideao.factory.ConnectionFactory;
+
 public class TestaPoolConexoes {
     
     public static void main(String[] args) throws SQLException {

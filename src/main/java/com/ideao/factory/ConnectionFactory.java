@@ -1,4 +1,4 @@
-package com.ideao;
+package com.ideao.factory;
 
 import java.sql.Connection;
 import java.sql.SQLException;

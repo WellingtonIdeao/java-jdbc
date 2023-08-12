@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.ideao.factory.ConnectionFactory;
+
 public class TestaListagem {
     public static void main(String[] args) {
         ConnectionFactory factory = new ConnectionFactory();
