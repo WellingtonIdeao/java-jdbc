@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ideao.model.Categoria;
 import com.ideao.model.Produto;
 
 public class ProdutoDAO {
@@ -40,6 +41,24 @@ public class ProdutoDAO {
         String sql = "SELECT id, nome, descricao FROM produto";
         
         try (PreparedStatement pstmt = this.connection.prepareStatement(sql)) {
+            pstmt.execute();
+
+            try (ResultSet rst = pstmt.getResultSet()) {
+                while(rst.next()){
+                    produtos.add(new Produto(rst.getInt(1), rst.getString(2), rst.getString(3)));
+                }
+            }
+        } 
+        return produtos;
+    }
+
+    public List<Produto> buscar(Categoria ct) throws SQLException {
+        List<Produto> produtos = new ArrayList<>();
+        String sql = "SELECT id, nome, descricao FROM produto WHERE categoria_id = ?";
+        System.out.println("Executando a query de buscar produto por categoria");
+        
+        try (PreparedStatement pstmt = this.connection.prepareStatement(sql)) {
+            pstmt.setInt(1, ct.getId());
             pstmt.execute();
 
             try (ResultSet rst = pstmt.getResultSet()) {
